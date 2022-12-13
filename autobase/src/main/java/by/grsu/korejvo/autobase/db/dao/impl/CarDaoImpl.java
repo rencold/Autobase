@@ -120,10 +120,16 @@ public class CarDaoImpl extends AbstractDao implements IDao<Integer, Car> {
 	public List<Car> find(TableStateDto tableStateDto) {
 		throw new RuntimeException("not implemented");
 	}
-
 	@Override
 	public int count() {
-		throw new RuntimeException("not implemented");
+		try (Connection c = createConnection()) {
+			PreparedStatement pstmt = c.prepareStatement("select count(*) as c from car");
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			return rs.getInt("c");
+		} catch (SQLException e) {
+			throw new RuntimeException("can't get drivers car", e);
+		}
 	}
 
 }

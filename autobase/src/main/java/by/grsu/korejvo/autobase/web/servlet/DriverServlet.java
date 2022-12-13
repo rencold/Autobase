@@ -32,8 +32,6 @@ public class DriverServlet extends HttpServlet {
 
 	private void handleListView(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-		int totalDrivers = driverDao.count(); // get count of ALL items
-
 		List<Driver> drivers = driverDao.getAll();
 
 		List<DriverDto> dtos = drivers.stream().map((entity) -> {

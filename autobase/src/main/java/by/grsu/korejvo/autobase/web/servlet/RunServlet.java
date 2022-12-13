@@ -32,8 +32,6 @@ public class RunServlet extends HttpServlet {
 
 	private void handleListView(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-		int totalRuns = runDao.count(); // get count of ALL items
-
 		List<Run> runs = runDao.getAll();
 
 		List<RunDto> dtos = runs.stream().map((entity) -> {

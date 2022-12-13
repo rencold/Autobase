@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +22,7 @@ import by.grsu.korejvo.autobase.web.dto.CarDto;
 import by.grsu.korejvo.autobase.web.dto.RequestDto;
 import by.grsu.korejvo.autobase.web.dto.TableStateDto;
 
-public class RequestServlet extends AbstractListServlet {
+public class RequestServlet extends HttpServlet {
 	private static final IDao<Integer, Request> requestDao = RequestDaoImpl.INSTANCE;
 	private static final IDao<Integer, Car> carDao = CarDaoImpl.INSTANCE;
 	private static final IDao<Integer, Run> runDao = RunDaoImpl.INSTANCE;
@@ -38,26 +39,24 @@ public class RequestServlet extends AbstractListServlet {
 	}
 
 	private void handleListView(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		int totalRequests = requestDao.count(); // get count of ALL items
-
-		final TableStateDto tableStateDto = resolveTableStateDto(req, totalRequests);
-
-		List<Request> requests = requestDao.find(tableStateDto); // get data using paging and sorting params
+		List<Request> requests = requestDao.getAll(); // get data
 
 		List<RequestDto> dtos = requests.stream().map((entity) -> {
 			RequestDto dto = new RequestDto();
-			// copy necessary fields as-is
 			dto.setId(entity.getId());
 			dto.setCustName(entity.getCustName());
 			dto.setPhoneNumber(entity.getPhoneNumber());
-			dto.setRunId(entity.getRunId());
 			dto.setStatement(entity.getStatement());
 
 			Car car = carDao.getById(entity.getCarId());
 			dto.setCarNumber(car.getNumber());
+			
+			Run run = runDao.getById(entity.getRunId());
+			dto.setRunId(run.getId());
 			return dto;
 		}).collect(Collectors.toList());
 
+		
 		req.setAttribute("list", dtos); // set data as request attribute (like "add to map") to be used later in JSP
 		req.getRequestDispatcher("request.jsp").forward(req, res); // delegate request processing to JSP
 	}
@@ -77,18 +76,9 @@ public class RequestServlet extends AbstractListServlet {
 			dto.setStatement(entity.getCustName());
 		}
 		req.setAttribute("dto", dto);
-		req.setAttribute("allCars", getAllCarsDtos());
 		req.getRequestDispatcher("request-edit.jsp").forward(req, res);
 	}
 
-	private List<CarDto> getAllCarsDtos() {
-		return carDao.getAll().stream().map((entity) -> {
-			CarDto dto = new CarDto();
-			dto.setId(entity.getId());
-			dto.setNumber(entity.getNumber());
-			return dto;
-		}).collect(Collectors.toList());
-	}
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -103,6 +93,8 @@ public class RequestServlet extends AbstractListServlet {
 		request.setRunId(runIdStr == null ? null : Integer.parseInt(runIdStr));
 		request.setCarId(carIdStr == null ? null : Integer.parseInt(carIdStr));
 		request.setStatement(req.getParameter("statement"));
+		request.setCarId(carIdStr == null ? null : Integer.parseInt(carIdStr));
+		request.setRunId(runIdStr == null ? null : Integer.parseInt(runIdStr));
 		res.sendRedirect("/request"); // will send 302 back to client and client will execute GET /car
 	}
 
