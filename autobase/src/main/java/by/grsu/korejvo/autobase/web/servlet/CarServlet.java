@@ -17,6 +17,8 @@ import by.grsu.korejvo.autobase.db.dao.impl.DriverDaoImpl;
 import by.grsu.korejvo.autobase.model.Car;
 import by.grsu.korejvo.autobase.model.Driver;
 import by.grsu.korejvo.autobase.web.dto.CarDto;
+import by.grsu.korejvo.autobase.web.dto.DriverDto;
+import by.grsu.korejvo.autobase.web.dto.RunDto;
 
 public class CarServlet extends HttpServlet {
 	private static final IDao<Integer, Car> carDao = CarDaoImpl.INSTANCE;
@@ -47,13 +49,23 @@ public class CarServlet extends HttpServlet {
 			dto.setTransmission(entity.getTransmission());
 
 			Driver driver = driverDao.getById(entity.getDriverId());
-			dto.setDriverName(driver.getName());
+			dto.setDriverId(driver.getId());
 			return dto;
 		}).collect(Collectors.toList());
 
 		req.setAttribute("list", dtos);
 		req.getRequestDispatcher("car.jsp").forward(req, res);
 	}
+	
+	private List<DriverDto> getAllDriverDtos() {
+		return driverDao.getAll().stream().map((entity) -> {
+			DriverDto dto = new DriverDto();
+			dto.setId(entity.getId());
+			dto.setName(entity.getName());
+			return dto;
+		}).collect(Collectors.toList());
+	}
+	
 
 	private void handleEditView(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String carIdStr = req.getParameter("id");
@@ -71,6 +83,7 @@ public class CarServlet extends HttpServlet {
 			dto.setDriverId(entity.getDriverId());
 		}
 		req.setAttribute("dto", dto);
+		req.setAttribute("allDrivers", getAllDriverDtos());
 		req.getRequestDispatcher("car-edit.jsp").forward(req, res);
 	}
 

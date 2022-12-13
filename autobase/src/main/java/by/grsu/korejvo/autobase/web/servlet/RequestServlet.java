@@ -20,6 +20,7 @@ import by.grsu.korejvo.autobase.model.Request;
 import by.grsu.korejvo.autobase.model.Run;
 import by.grsu.korejvo.autobase.web.dto.CarDto;
 import by.grsu.korejvo.autobase.web.dto.RequestDto;
+import by.grsu.korejvo.autobase.web.dto.RunDto;
 import by.grsu.korejvo.autobase.web.dto.TableStateDto;
 
 public class RequestServlet extends HttpServlet {
@@ -39,7 +40,8 @@ public class RequestServlet extends HttpServlet {
 	}
 
 	private void handleListView(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		List<Request> requests = requestDao.getAll(); // get data
+		List<Request> requests = requestDao.getAll();
+		
 
 		List<RequestDto> dtos = requests.stream().map((entity) -> {
 			RequestDto dto = new RequestDto();
@@ -76,7 +78,27 @@ public class RequestServlet extends HttpServlet {
 			dto.setStatement(entity.getCustName());
 		}
 		req.setAttribute("dto", dto);
+		req.setAttribute("allCars", getAllCarsDtos());
+		req.setAttribute("allRuns", getAllRunDtos());
 		req.getRequestDispatcher("request-edit.jsp").forward(req, res);
+	}
+	
+	private List<CarDto> getAllCarsDtos() {
+		return carDao.getAll().stream().map((entity) -> {
+			CarDto dto = new CarDto();
+			dto.setId(entity.getId());
+			dto.setNumber(entity.getNumber());
+			return dto;
+		}).collect(Collectors.toList());
+	}
+	
+	private List<RunDto> getAllRunDtos() {
+		return runDao.getAll().stream().map((entity) -> {
+			RunDto dto = new RunDto();
+			dto.setId(entity.getId());
+			dto.setLocationFrom(entity.getLocationFrom());
+			return dto;
+		}).collect(Collectors.toList());
 	}
 
 
@@ -93,8 +115,6 @@ public class RequestServlet extends HttpServlet {
 		request.setRunId(runIdStr == null ? null : Integer.parseInt(runIdStr));
 		request.setCarId(carIdStr == null ? null : Integer.parseInt(carIdStr));
 		request.setStatement(req.getParameter("statement"));
-		request.setCarId(carIdStr == null ? null : Integer.parseInt(carIdStr));
-		request.setRunId(runIdStr == null ? null : Integer.parseInt(runIdStr));
 		res.sendRedirect("/request"); // will send 302 back to client and client will execute GET /car
 	}
 

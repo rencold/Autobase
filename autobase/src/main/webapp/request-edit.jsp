@@ -35,9 +35,9 @@
 
 			<div class="row">
 				<div class="col s6">
-					<label for="runId">Run ID</label> <select name="runId"
-						class="browser-default" required>
-						<option value="">--select run--</option>
+					<label for="runId">Run ID</label> 
+					<select name="runId"	class="browser-default" required>
+						<option value="">--SELECT RUN NUMBER--</option>
 						<c:forEach items="${allRuns}" var="run">
 							<option value="${run.id}"
 								<c:if test="${run.id eq dto.runId}">selected="selected"</c:if>>${run.id}</option>
