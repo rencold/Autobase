@@ -23,8 +23,8 @@
 					<label for="name">Name</label>
 				</div>
 				<div class="input-field col s6">
-					<input type="text" name="phoneNumber" required
-						value="${dto.phoneNumber}"> <label for="phoneNumber">Phone
+					<input type="tel" name="phoneNumber" required maxlength=15 value="${dto.phoneNumber}"> 
+					<label for="phoneNumber">Phone
 						Number</label>
 				</div>
 			</div>
@@ -35,8 +35,8 @@
 					<label for="exp">Experience</label>
 				</div>
 				<div class="input-field col s6">
-					<input type="text" name="statement" required
-						value="${dto.statement}"> <label for="statement">Statement</label>
+					<input type="text" name="statement" required value="${dto.statement}"> 
+					<label for="statement">Statement</label>
 				</div>
 			</div>
 		</div>

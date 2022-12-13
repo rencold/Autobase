@@ -122,4 +122,3 @@ public class RunDaoImpl extends AbstractDao implements IDao<Integer, Run> {
 		}
 	}
 }
-

@@ -17,11 +17,11 @@
 				<input type="hidden" name="id" value="${dto.id}" />
 				<div class="row">
 					<div class="input-field col s6">
-						<input type="text" name="locationFrom" value="${dto.locationFrom}">
+						<input type="text" name="locationFrom" required value="${dto.locationFrom}">
 						<label for="locationFrom">Location From</label>
 					</div>
 					<div class="input-field col s6">
-						<input type="text" name="locationTo" value="${dto.locationTo}">
+						<input type="text" name="locationTo" required value="${dto.locationTo}">
 						<label for="locationTo">Location To</label>
 					</div>
 				</div>
@@ -30,7 +30,7 @@
 				<div class="input-field col s3 center">
 				</div>
 					<div class="input-field col s6 center">
-						<input type="text" name="distance" value="${dto.distance}">
+						<input type="number" step="0.01" name="distance" required value="${dto.distance}">
 						<label for="distance">Distance</label>
 					</div>
 				</div>

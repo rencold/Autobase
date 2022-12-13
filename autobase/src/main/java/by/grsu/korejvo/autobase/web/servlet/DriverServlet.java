@@ -21,6 +21,7 @@ public class DriverServlet extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 		System.out.println("doGet");
 		String viewParam = req.getParameter("view");
 		if ("edit".equals(viewParam)) {
@@ -77,6 +78,12 @@ public class DriverServlet extends HttpServlet {
 		driver.setPhoneNumber(req.getParameter("phoneNumber"));
 		driver.setExp(req.getParameter("exp"));
 		driver.setStatement(req.getParameter("statement"));
+		if (Strings.isNullOrEmpty(driverIdStr)) {
+			driverDao.insert(driver);
+			} else {
+			driver.setId(Integer.parseInt(driverIdStr));
+			driverDao.update(driver);
+			}
 		res.sendRedirect("/driver");
 	}
 

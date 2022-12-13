@@ -36,7 +36,7 @@
 					<td><c:out value="${entity.driveUnit}" /></td>
 					<td><c:out value="${entity.engine}" /></td>
 					<td><c:out value="${entity.transmission}" /></td>
-					<td><c:out value="${entity.driverId}" /></td>
+					<td><c:out value="${entity.driverName}" /></td>
 					<td><a class="btn-small btn-floating waves-effect waves-light blue" title="редактировать" href="/car?view=edit&id=${entity.id}"><i
 							class="material-icons">edit</i></a><a class="btn-small btn-floating waves-effect waves-light red" title="удалить"
 						onclick="sendHTTPDelete('/car?id=${entity.id}')"><i class="material-icons">delete</i></a></td>

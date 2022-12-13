@@ -17,18 +17,18 @@
 
 			<div class="row">
 				<div class="input-field col s12">
-					<input type="text" name="statement" value="${dto.statement}">
+					<input type="text" name="statement" required value="${dto.statement}">
 					<label for="statement">Statement</label>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="input-field col s6">
-					<input type="text" name="custName" value="${dto.custName}">
+					<input type="text" name="custName" required value="${dto.custName}">
 					<label for="custName">Customer Name</label>
 				</div>
 				<div class="input-field col s6">
-					<input type="text" name="phoneNumber" value="${dto.phoneNumber}">
+					<input type="text" name="phoneNumber" required value="${dto.phoneNumber}">
 					<label for="phoneNumber">Phone Number</label>
 				</div>
 			</div>

@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <c:set var="pageTitle" value="Requests" scope="application" />
+<c:set var="pageUrl" value="/request" scope="page" />
 <t:wrapper>
 	<h1>Requests</h1>
 	<div class="row">
@@ -32,7 +33,7 @@
 					<td><c:out value="${entity.custName}" /></td>
 					<td><c:out value="${entity.phoneNumber}" /></td>
 					<td><c:out value="${entity.runId}" /></td>
-					<td><c:out value="${entity.carId}" /></td>
+					<td><c:out value="${entity.carNumber}" /></td>
 					<td><c:out value="${entity.statement}" /></td>
 					<td><a
 						class="btn-small btn-floating waves-effect waves-light blue"

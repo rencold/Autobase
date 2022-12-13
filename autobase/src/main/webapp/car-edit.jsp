@@ -17,31 +17,31 @@
 			
 			<div class="row">
 				<div class="input-field col s6">
-					<input type="text" name="number" value="${dto.number}"> <label for="number">Number</label>
+					<input type="text" name="number" required value="${dto.number}"> <label for="number">Number</label>
 				</div>
 			
 			
 				<div class="input-field col s6">
-					<input type="text" name="brand" value="${dto.brand}"> <label for="brand">Brand</label>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="input-field col s6">
-					<input type="text" name="model" value="${dto.model}"> <label for="model">Model</label>
-				</div>
-				<div class="input-field col s6">
-					<input type="text" name="driveUnit" value="${dto.driveUnit}"> <label for="driveUnit">Drive Unit</label>
+					<input type="text" name="brand" required value="${dto.brand}"> <label for="brand">Brand</label>
 				</div>
 			</div>
 			
 			<div class="row">
 				<div class="input-field col s6">
-					<input type="text" name="engine" value="${dto.engine}"> <label for="engine">Engine</label>
+					<input type="text" name="model" required value="${dto.model}"> <label for="model">Model</label>
+				</div>
+				<div class="input-field col s6">
+					<input type="text" name="driveUnit" required value="${dto.driveUnit}"> <label for="driveUnit">Drive Unit</label>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="input-field col s6">
+					<input type="text" name="engine" required value="${dto.engine}"> <label for="engine">Engine</label>
 				</div>
 			
 				<div class="input-field col s6">
-					<input type="text" name="transmission" value="${dto.transmission}"> <label for="transmission">Transmission</label>
+					<input type="text" name="transmission" required value="${dto.transmission}"> <label for="transmission">Transmission</label>
 				</div>
 			</div>
 			<div class="row">

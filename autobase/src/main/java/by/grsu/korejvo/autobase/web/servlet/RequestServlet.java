@@ -21,7 +21,6 @@ import by.grsu.korejvo.autobase.model.Run;
 import by.grsu.korejvo.autobase.web.dto.CarDto;
 import by.grsu.korejvo.autobase.web.dto.RequestDto;
 import by.grsu.korejvo.autobase.web.dto.RunDto;
-import by.grsu.korejvo.autobase.web.dto.TableStateDto;
 
 public class RequestServlet extends HttpServlet {
 	private static final IDao<Integer, Request> requestDao = RequestDaoImpl.INSTANCE;
@@ -30,6 +29,7 @@ public class RequestServlet extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 		System.out.println("doGet");
 		String viewParam = req.getParameter("view");
 		if ("edit".equals(viewParam)) {
@@ -41,7 +41,6 @@ public class RequestServlet extends HttpServlet {
 
 	private void handleListView(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		List<Request> requests = requestDao.getAll();
-		
 
 		List<RequestDto> dtos = requests.stream().map((entity) -> {
 			RequestDto dto = new RequestDto();
@@ -52,13 +51,12 @@ public class RequestServlet extends HttpServlet {
 
 			Car car = carDao.getById(entity.getCarId());
 			dto.setCarNumber(car.getNumber());
-			
+
 			Run run = runDao.getById(entity.getRunId());
 			dto.setRunId(run.getId());
 			return dto;
 		}).collect(Collectors.toList());
 
-		
 		req.setAttribute("list", dtos); // set data as request attribute (like "add to map") to be used later in JSP
 		req.getRequestDispatcher("request.jsp").forward(req, res); // delegate request processing to JSP
 	}
@@ -75,14 +73,14 @@ public class RequestServlet extends HttpServlet {
 			dto.setPhoneNumber(entity.getPhoneNumber());
 			dto.setRunId(entity.getRunId());
 			dto.setCarId(entity.getCarId());
-			dto.setStatement(entity.getCustName());
+			dto.setStatement(entity.getStatement());
 		}
 		req.setAttribute("dto", dto);
 		req.setAttribute("allCars", getAllCarsDtos());
 		req.setAttribute("allRuns", getAllRunDtos());
 		req.getRequestDispatcher("request-edit.jsp").forward(req, res);
 	}
-	
+
 	private List<CarDto> getAllCarsDtos() {
 		return carDao.getAll().stream().map((entity) -> {
 			CarDto dto = new CarDto();
@@ -91,7 +89,7 @@ public class RequestServlet extends HttpServlet {
 			return dto;
 		}).collect(Collectors.toList());
 	}
-	
+
 	private List<RunDto> getAllRunDtos() {
 		return runDao.getAll().stream().map((entity) -> {
 			RunDto dto = new RunDto();
@@ -100,7 +98,6 @@ public class RequestServlet extends HttpServlet {
 			return dto;
 		}).collect(Collectors.toList());
 	}
-
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -115,7 +112,14 @@ public class RequestServlet extends HttpServlet {
 		request.setRunId(runIdStr == null ? null : Integer.parseInt(runIdStr));
 		request.setCarId(carIdStr == null ? null : Integer.parseInt(carIdStr));
 		request.setStatement(req.getParameter("statement"));
-		res.sendRedirect("/request"); // will send 302 back to client and client will execute GET /car
+		if (Strings.isNullOrEmpty(requestIdStr)) {
+			requestDao.insert(request);
+			} else {
+			request.setId(Integer.parseInt(requestIdStr));
+			requestDao.update(request);
+			}
+
+		res.sendRedirect("/request");
 	}
 
 	@Override

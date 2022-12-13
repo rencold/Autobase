@@ -16,4 +16,16 @@ public abstract class ValidationUtils {
 		}
 		return true;
 	}
+
+	public static boolean isBoolean(String str) {
+		if (str == null) {
+			return false;
+		}
+		try {
+			Boolean.parseBoolean(str);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -21,6 +21,7 @@ public class RunServlet extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 		System.out.println("doGet");
 		String viewParam = req.getParameter("view");
 		if ("edit".equals(viewParam)) {
@@ -72,7 +73,14 @@ public class RunServlet extends HttpServlet {
 
 		run.setLocationFrom(req.getParameter("locationFrom"));
 		run.setLocationTo(req.getParameter("locationTo"));
-		run.setDistance(Double.parseDouble(("distance")));
+		run.setDistance(Double.parseDouble(req.getParameter("distance")));
+		if (Strings.isNullOrEmpty(runIdStr)) {
+			runDao.insert(run);
+			} else {
+			run.setId(Integer.parseInt(runIdStr));
+			runDao.update(run);
+			}
+		
 		res.sendRedirect("/run");
 	}
 
